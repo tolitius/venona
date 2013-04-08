@@ -17,6 +17,6 @@ user=> (alpha-numerify-all xord-with-spaces)
 
 ## license
 
-Copyright © 2013 FIXME
+Copyright © 2013 tolitius
 
 Distributed under the Eclipse Public License, the same as Clojure.
