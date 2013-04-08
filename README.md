@@ -1,6 +1,6 @@
 # venona
 
-It all started from [Venona Project](http://en.wikipedia.org/wiki/Venona_project). And then the crypto tools just kept evolving... And they still are.
+It all started from [Venona Project](http://en.wikipedia.org/wiki/Venona_project). And then the crypto tools just kept evolving... they still are.
 
 ## usage
 
