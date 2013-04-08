@@ -10,7 +10,7 @@ For example a [venona.otp-attack](https://github.com/tolitius/venona/blob/master
 ```clojure
 ;; a quick start into fascinating crypto universe:
 
-user=> (use :reload-all 'venona.otp-attack)
+user=> (use 'venona.otp-attack)
 nil
 user=> (alpha-numerify-all xord-with-spaces)
 ```
