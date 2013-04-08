@@ -15,7 +15,7 @@ nil
 user=> (alpha-numerify-all xord-with-spaces)
 ```
 
-## License
+## license
 
 Copyright © 2013 FIXME
 
