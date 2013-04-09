@@ -10,9 +10,9 @@ For example a [venona.otp-attack](https://github.com/tolitius/venona/blob/master
 ```clojure
 ;; a quick start into fascinating crypto universe:
 
-user=> (use 'venona.otp-attack)
+user=> (use 'venona.otp-attack 'venona.tools)
 nil
-user=> (alpha-numerify-all xord-with-spaces)
+user=> (pprint (fmap xor-with-trigrams (trigram-at 0 xord-with-spaces)))
 ```
 
 ## license

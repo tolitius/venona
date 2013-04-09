@@ -18,21 +18,19 @@
 
 (def cnums 
   "parse all the cypher texts into numbers"
-  (fmap ctexts parse-hex-str))
+  (fmap parse-hex-str ctexts))
 
 (def xord-with-every
   "xor 'target' with every other 'cypher'"
-  (fmap cnums (partial xor (:target cnums))))
+  (let [target (:target ctexts)]
+  (fmap #(hex-str-xor target 
+          (subs % 0 (count target)))
+        ctexts)))
 
 (def xord-with-spaces
   "xor 'target' with every other 'cypher'"
-  (fmap xord-with-every 
-    (partial xor 
-      (spaces (byte-count 
-        (:target ctexts)))))) ;; number of spaces = number of 'target' characters
+  (let [target (:target ctexts)]
+    (fmap (partial xor 
+            (spaces (byte-count target))) ;; number of spaces = number of 'target' characters
+          xord-with-every)))
 
-(defn asciify-all [hexs]
-  (fmap hexs asciify))
-
-(defn alpha-numerify-all [hexs]
-  (fmap hexs alpha-numerify))

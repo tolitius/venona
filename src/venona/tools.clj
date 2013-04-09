@@ -1,4 +1,5 @@
-(ns venona.tools)
+(ns venona.tools
+  (use [venona.freqs]))
 
 (defn parse-hex-str [hexs]
   "create a number from a hex string"
@@ -25,6 +26,10 @@
             (str s (char (Integer/parseInt (str x y) 16)))) "" 
           (partition 2 hex)))
 
+(defn numerify [s]
+  "given a string creates a number that reprents it's ASCII byte sequence"
+  (BigInteger. (.getBytes s)))
+
 (defn asciify [n]
   "returs a string which is an ASCII representation of 'number's bytes"
   (unhexify (hexify n)))
@@ -35,7 +40,7 @@
   (let [text (asciify n)]
     (clojure.string/replace text #"[^a-zA-Z0-9\s]" " ")))
 
-(defn fmap [m f]
+(defn fmap [f m]
   "map 'f' over all the keys of 'm'"
   (into {} (for [[k v] m] [k (f v)])))
 
@@ -43,4 +48,32 @@
   ".xor to IFun to use it as partial when needed"
   (.xor x y))
 
+(defn hexify-all [ctnums]
+  "convert all the cypher texts number values to hexidecimal string represntations"
+  (fmap hexify ctnums))
+
+(defn asciify-all [hexs]
+  (fmap asciify hexs))
+
+(defn alpha-numerify-all [hexs]
+  (fmap alpha-numerify hexs))
+
+(defn xor-with-trigrams [hexs]
+  "given a hex string xors it with most frequent English trigrams"
+  (map #(->> (numerify %)
+             (xor (parse-hex-str hexs))
+             (asciify)
+             (hash-map (keyword %))) trigrams))
+
+(defn hex-str-xor [s1 s2]
+  (let [n1 (parse-hex-str s1)
+        n2 (parse-hex-str s2)]
+    (xor n1 n2)))
+
+(defn trigram-at [index ctmap]
+  (let [cts (-> (hexify-all ctmap)
+                (dissoc :target))]
+    (fmap #(clojure.string/join 
+             (take 6 (drop index %))) ;; 6 bytes is an "ASCII 8 bit" triagram
+          cts)))
 
